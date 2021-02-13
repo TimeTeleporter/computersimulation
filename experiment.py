@@ -3,19 +3,25 @@ import numpy as np
 from vectors import randomDirection
 import particle
 import domain
+import multiprocessing as mp
+
+def handleParticleMoveAndReflection(particle, volume):
+    particle.move()
+    volume.reflectParticle(particle)
+    return particle
 
 class Experiment():
     """A class to implement the experiment setup. It takes care of the time aspect."""
-    def __init__(self, volume, particles: List[particle.Particle]):
+    def __init__(self, volume, particles: List[particle.Particle], pool: mp.Pool):
+        self.pool = pool
         self.volume: domain.Volume = volume
         self.particles = particles
         self.pressure = 0
         self.time: int = 0
-    
+        
     def moveParticles(self):
         for part in self.particles:
-            part.move()
-            self.volume.reflectParticle(part)
+            self.handleParticleMoveAndReflection(part, self.volume)
     
     def handleParticleCollisions(self):
         for i in range(len(self.particles)):
@@ -33,11 +39,11 @@ class Experiment():
     def runStep(self, iterations=1):
         for i in range(iterations):
             self.time += 1
-            print(str(self.time))
-            self.moveParticles()
+            #print(str(self.time))            
+            self.particles = [self.pool.apply(handleParticleMoveAndReflection, args=(particle, self.volume)) for particle in self.particles]                        
             self.handleParticleCollisions()
             self.updatePressure()
-            self.showPressure()
+            #self.showPressure()
     
     def calculateEnergy(self):
         self.energy = 0
