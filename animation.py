@@ -30,7 +30,7 @@ class Cube2DExperiment(Experiment):
             circles.set_data(xdata, ydata)
             return circles,
         
-        animation = FuncAnimation(fig, func=animationFunction, interval=10, blit=True)
+        animation = FuncAnimation(fig, func=animationFunction, interval=0, blit=True)
         plt.show()
     
     @classmethod

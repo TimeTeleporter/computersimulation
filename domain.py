@@ -100,6 +100,13 @@ class Volume(ABC):
             for boundry in self.boundries:
                 if boundry.check(particle.position):
                     boundry.reflectParticle(particle)
+    
+    def getAndResetImpulse(self):
+        impulseHeap = 0
+        for boundry in self.boundries:
+            impulseHeap += boundry.absorbedImpulse
+            boundry.absorbedImpulse = 0
+        return impulseHeap
 
 class Cuboid(Volume):
     """A class that implements the abstract volume in a cuboid shape. See that
