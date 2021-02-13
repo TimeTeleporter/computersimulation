@@ -33,11 +33,11 @@ class Experiment():
     def runStep(self, iterations=1):
         for i in range(iterations):
             self.time += 1
-            print(str(self.time))
+            #print(str(self.time))
             self.moveParticles()
             self.handleParticleCollisions()
             self.updatePressure()
-            self.showPressure()
+            #self.showPressure()
     
     def calculateEnergy(self):
         self.energy = 0
@@ -54,5 +54,5 @@ class Experiment():
         self.calculateEnergy()
         self.showPressure()
     
-    def createParticleList(numberofParticles, volume: domain.Volume, speed, mass, radius):
-        return [particle.Particle(volume.randomPosition(), speed, randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]
+    def createParticleList(numberofParticles, volume: domain.Volume, speedfunc, mass, radius):
+        return [particle.Particle(volume.randomPosition(), speedfunc(), randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]

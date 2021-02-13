@@ -29,17 +29,18 @@ class Cube2DExperiment(Experiment):
             circles.set_data(xdata, ydata)
             return circles,
         
-        animation = FuncAnimation(fig, func=animationFunction, interval=10, blit=True)
+        animation = FuncAnimation(fig, func=animationFunction, interval=0, blit=True)
         plt.show()
     
     @classmethod
-    def createCube2DExperiment(exp, cubeEdgeLength, numberOfParticles, particleMass, maxSpeed, particleRadius):
+    def createCube2DExperiment(exp, cubeEdgeLength, numberOfParticles, maxSpeed, particleMass, particleRadius):
         NUMBER_OF_DIMENSIONS=2
         cube = domain.Cuboid(np.array([abs(cubeEdgeLength) for i in range(NUMBER_OF_DIMENSIONS)]))
-        particles = Experiment.createParticleList(numberOfParticles, cube, maxSpeed * random(), particleMass, particleRadius)
+        def speedfunc(): return maxSpeed * random()
+        particles = Experiment.createParticleList(numberOfParticles, cube, speedfunc, particleMass, particleRadius)
         return exp(cube, particles)
 
-exp: Cube2DExperiment = Cube2DExperiment.createCube2DExperiment(1000, 1000, 1, 1, 1)
+exp: Cube2DExperiment = Cube2DExperiment.createCube2DExperiment(1000, 1000, 10, 1, 1)
 exp.showState()
 exp.runAnimated2D()
 exp.showState()
