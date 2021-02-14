@@ -7,7 +7,7 @@ from domain import Cuboid
 We create an experiment with 1000 particles in a 3 dimensional cube with kinetic energy of 300 Kelvin.
 """
 
-N = 1000 # Number of particles
+N = 100 # Number of particles
 m = 2 * u
 r = value('Bohr radius')
 l = 1

@@ -28,7 +28,8 @@ class Experiment():
         for boundry in self.volume.boundries:
             impulseHeap += boundry.absorbedImpulse
             boundry.absorbedImpulse = 0
-        self.pressure = self.pressure + (impulseHeap / self.volume.surfaceArea - self.pressure) / self.time
+        dt = 1
+        self.pressure = self.pressure + (impulseHeap / (self.volume.surfaceArea * dt) - self.pressure) / self.time
     
     def runStep(self, iterations=1):
         for i in range(iterations):
@@ -54,5 +55,5 @@ class Experiment():
         self.calculateEnergy()
         self.showPressure()
     
-    def createParticleList(numberofParticles, volume: domain.Volume, speed, mass, radius):
-        return [particle.Particle(volume.randomPosition(), speed, randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]
+    def createParticleList(numberofParticles, volume: domain.Volume, speedfunc, mass, radius):
+        return [particle.Particle(volume.randomPosition(), speedfunc(), randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]
