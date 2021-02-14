@@ -6,9 +6,11 @@ import domain
 
 class Experiment():
     """A class to implement the experiment setup. It takes care of the time aspect."""
-    def __init__(self, volume, particles: List[particle.Particle]):
+    def __init__(self, volume, particles: List[particle.Particle], secondsPerStep=1):
         self.volume: domain.Volume = volume
         self.particles = particles
+        self.secondsPerStep = secondsPerStep
+        for particle in self.particles: particle.speed = particle.speed * self.secondsPerStep
         self.pressure = 0
         self.time: int = 0
     
@@ -28,23 +30,23 @@ class Experiment():
         for boundry in self.volume.boundries:
             impulseHeap += boundry.absorbedImpulse
             boundry.absorbedImpulse = 0
-        dt = 1
+        dt = self.secondsPerStep
         self.pressure = self.pressure + (impulseHeap / (self.volume.surfaceArea * dt) - self.pressure) / self.time
     
     def runStep(self, iterations=1):
         for i in range(iterations):
             self.time += 1
-            print(str(self.time))
+            #print(str(self.time))
             self.moveParticles()
             self.handleParticleCollisions()
             self.updatePressure()
-            self.showPressure()
+            #self.showPressure()
     
     def calculateEnergy(self):
         self.energy = 0
         for part in self.particles:
-            part.showState()
-            self.energy += part.speed * part.speed * part.mass / 2
+            #part.showState()
+            self.energy += part.speed * part.speed * part.mass / (2 * self.secondsPerStep * self.secondsPerStep)
         print("System energy:", str(self.energy))
         return self.energy
     
@@ -53,7 +55,7 @@ class Experiment():
     
     def showState(self):
         self.calculateEnergy()
-        self.showPressure()
+        if self.time != 0: self.showPressure()
     
     def createParticleList(numberofParticles, volume: domain.Volume, speedfunc, mass, radius):
         return [particle.Particle(volume.randomPosition(), speedfunc(), randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]

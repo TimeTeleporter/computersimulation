@@ -63,7 +63,7 @@ class Wall(Boundry):
     
     def updateImpulse(self, particle: Particle):
         """Saves the experienced impulse."""
-        self.absorbedImpulse += particle.mass * particle.speed * abs(particle.direction[self.dimension])
+        self.absorbedImpulse += 2 * particle.mass * particle.speed * abs(particle.direction[self.dimension])
 
 class Volume(ABC):
     """An abstract class that coordinates boundries and holds measurements."""
@@ -71,6 +71,7 @@ class Volume(ABC):
         self.dimensions = dimensions
         self.setBoundries()
         self.setSurfaceArea()
+        self.setVolume()
     
     @abstractmethod
     def setBoundries(self):
@@ -81,6 +82,10 @@ class Volume(ABC):
     def setSurfaceArea(self):
         """A method  that needs to be implemented to return the surface area of the volume."""
         self.surfaceArea = 1*self.dimensions #or something
+    
+    @abstractmethod
+    def setVolume(self):
+        self.volume = 0
     
     @abstractmethod
     def randomPosition(self):
@@ -126,6 +131,11 @@ class Cuboid(Volume):
                     area *= self.vector[index]
             array.append(area)
         self.surfaceArea = sum(array)
+        return self.surfaceArea
+    
+    def setVolume(self):
+        self.volume = np.prod(self.vector)
+        return self.volume
     
     def randomPosition(self):
         array = []
