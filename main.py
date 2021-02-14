@@ -1,4 +1,5 @@
 from scipy.constants import k, u, value
+import multiprocessing as mp
 from experiment import Experiment
 from domain import Cuboid
 
@@ -17,7 +18,9 @@ v = 2 * k * T / m
 
 cube = Cuboid([1 for dim in range(f)])
 
-exp = Experiment(cube, Experiment.createParticleList(N, cube, v / 10**9, m, r))
-exp.showState()
-exp.runStep(10000)
-exp.showState()
+if __name__ == '__main__': # protect your program's entry point
+    pool = mp.Pool(mp.cpu_count())
+    exp = Experiment(cube, Experiment.createParticleList(N, cube, v / 10**9, m, r), pool)
+    exp.showState()
+    exp.runStep(1000)
+    exp.showState()

@@ -26,7 +26,7 @@ def checkCollision(particle1: Particle, particle2: Particle):
         return True
     return False
 
-def collision(particle1: Particle, particle2: Particle):
+def collision(particle1: Particle, particle2: Particle, i, j):
     xrel = particle2.position - particle1.position
     # We shift the impulse space to give the particle2 zero impulse and save particle 1 in p1.
     impulseShift = particle2.getImpulseVector()
@@ -34,3 +34,4 @@ def collision(particle1: Particle, particle2: Particle):
     p2neu = normalize(xrel) * np.dot(p1, xrel) / magnitude(xrel)
     particle1.speed, particle1.direction = combilize((p1 - p2neu + impulseShift) / particle1.mass)
     particle2.speed, particle2.direction = combilize((p2neu + impulseShift) / particle2.mass)
+    return particle1, particle2, i, j
