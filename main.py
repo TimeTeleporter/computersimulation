@@ -1,3 +1,4 @@
+import numpy as np
 from scipy.constants import k, u, value, nano
 from experiment import Experiment
 from domain import Cuboid
@@ -13,7 +14,7 @@ r = value('Bohr radius')
 l = 1 #meter
 f = 3 # Dimensions and degrees of freedom
 T = 300 # Kelvin
-v = 2 * k * T / m
+v = np.sqrt(2 * k * T / m)
 
 print("Initial energy:", str(N * k * T), "J")
 

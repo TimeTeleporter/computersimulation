@@ -36,7 +36,7 @@ class Experiment():
     def runStep(self, iterations=1):
         for i in range(iterations):
             self.time += 1
-            #print(str(self.time))
+            print(str(self.time))
             self.moveParticles()
             self.handleParticleCollisions()
             self.updatePressure()
