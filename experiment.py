@@ -7,7 +7,7 @@ import domain
 class Experiment():
     """A class to implement the experiment setup. It takes care of the time aspect."""
     def __init__(self, volume, particles: List[particle.Particle], secondsPerStep=1):
-        self.volume: domain.Volume = volume
+        self.volume = volume
         self.particles = particles
         self.secondsPerStep = secondsPerStep
         for particle in self.particles: particle.speed = particle.speed * self.secondsPerStep
@@ -31,12 +31,12 @@ class Experiment():
             impulseHeap += boundry.absorbedImpulse
             boundry.absorbedImpulse = 0
         dt = self.secondsPerStep
-        self.pressure = self.pressure + (impulseHeap / (self.volume.surfaceArea * dt) - self.pressure) / self.time
+        self.pressure = self.pressure + (impulseHeap / (self.volume.surfaceArea * dt * dt) - self.pressure) / self.time
     
     def runStep(self, iterations=1):
         for i in range(iterations):
             self.time += 1
-            print(str(self.time))
+            #print(str(self.time))
             self.moveParticles()
             self.handleParticleCollisions()
             self.updatePressure()

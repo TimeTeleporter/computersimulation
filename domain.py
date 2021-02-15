@@ -64,6 +64,7 @@ class Wall(Boundry):
     def updateImpulse(self, particle: Particle):
         """Saves the experienced impulse."""
         self.absorbedImpulse += 2 * particle.mass * particle.speed * abs(particle.direction[self.dimension])
+        return self.absorbedImpulse
 
 class Volume(ABC):
     """An abstract class that coordinates boundries and holds measurements."""
