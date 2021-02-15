@@ -1,5 +1,6 @@
 from typing import List
 import numpy as np
+import matplotlib.pyplot as plt
 from vectors import randomDirection
 import particle
 import domain
@@ -56,6 +57,13 @@ class Experiment():
     def showState(self):
         self.calculateEnergy()
         if self.time != 0: self.showPressure()
+    
+    def speedHisotgram(self, binmode='auto'):
+        speedlst = [part.speed for part in self.particles]
+        if binmode != 'auto': binmode=np.arange(0,max(speedlst), 1.1 * min(speedlst))
+        fig = plt.hist(speedlst, bins=binmode)
+        plt.title("Speed distribution at step " + str(self.time))
+        plt.show()
     
     def createParticleList(numberofParticles, volume: domain.Volume, speedfunc, mass, radius):
         return [particle.Particle(volume.randomPosition(), speedfunc(), randomDirection(volume.dimensions), mass, radius) for x in range(numberofParticles)]

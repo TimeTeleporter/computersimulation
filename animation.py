@@ -36,11 +36,13 @@ class Cube2DExperiment(Experiment):
     def createCube2DExperiment(exp, cubeEdgeLength, numberOfParticles, particleMass, maxSpeed, particleRadius):
         NUMBER_OF_DIMENSIONS=2
         cube = domain.Cuboid(np.array([abs(cubeEdgeLength) for i in range(NUMBER_OF_DIMENSIONS)]))
-        def speedFunction() -> float: return maxSpeed * random()
+        def speedFunction() -> float: return maxSpeed #* random()
         particles = Experiment.createParticleList(numberOfParticles, cube, speedFunction, particleMass, particleRadius)
         return exp(cube, particles)
 
-exp: Cube2DExperiment = Cube2DExperiment.createCube2DExperiment(100, 100, 1, 1, 1)
+exp: Cube2DExperiment = Cube2DExperiment.createCube2DExperiment(100, 200, 1, 1, 1.2)
 exp.showState()
+exp.speedHistogram()
 exp.runAnimated2D()
+exp.speedHistogram()
 exp.showState()

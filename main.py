@@ -1,6 +1,4 @@
-import timing
 import numpy as np
-from scipy.constants import k, u, value, milli
 from experiment import Experiment
 from domain import Cuboid
 
@@ -10,23 +8,29 @@ We create an experiment with 1000 particles in a 3 dimensional cube with kinetic
 """
 
 N = 100 # Number of particles
-m = 2 * u # kg
-r = value('Bohr radius')
-l = 1 #meter
-f = 3 # Dimensions and degrees of freedom
-T = 300 # Kelvin
-v = np.sqrt(2 * k * T / m)
+l = 100 # Edge length of the cube
+dimensions = 3
+v, m, r = 1, 1, 1 # Initial particle speed, mass and radius
 
-print("Initial energy:", str(N * k * T), "J")
-print("Initial speed:", str(v))
+cube = Cuboid(np.array([l for dim in range(dimensions)]))
+def speedFunction() -> float: return v
 
-cube = Cuboid([l for dim in range(f)])
+print("Initial energy:", str(N * m * v * v * 0.5)) # Kinetic energy sum E = N k T
+print("Expected pressure:", str(N * m * v * v * 0.5 / cube.setVolume()))
 
-def speedFunction(): return v
-
-print("Ideal pressure:", str(N * k * T / cube.setVolume()), "J/m**3") # N = 100, T = 300 K, V = 1 m**3, p = N * k * T / V
-
-exp = Experiment(cube, Experiment.createParticleList(N, cube, speedFunction, m, r), milli)
+exp = Experiment(cube, Experiment.createParticleList(N, cube, speedFunction, m, r))
 exp.showState()
-exp.runStep(5000)
+exp.speedHisotgram()
+exp.runStep(10)
+exp.speedHisotgram()
+exp.runStep(100)
+exp.speedHisotgram()
+exp.runStep(1000)
+exp.speedHisotgram()
+exp.runStep(1000)
+exp.speedHisotgram()
+exp.runStep(1000)
+exp.speedHisotgram()
+exp.runStep(1000)
+exp.speedHisotgram()
 exp.showState()
