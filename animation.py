@@ -2,6 +2,8 @@ from typing import List
 import numpy as np
 from random import random
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import matplotlib.path as path
 from matplotlib.animation import FuncAnimation
 from vectors import randomDirection
 import particle
@@ -42,7 +44,5 @@ class Cube2DExperiment(Experiment):
 
 exp: Cube2DExperiment = Cube2DExperiment.createCube2DExperiment(100, 200, 1, 1, 1.2)
 exp.showState()
-exp.speedHistogram()
 exp.runAnimated2D()
-exp.speedHistogram()
 exp.showState()

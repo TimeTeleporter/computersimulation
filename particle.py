@@ -9,6 +9,7 @@ class Particle():
         self.direction = direction
         self.mass = mass
         self.radius = radius
+        self.numberOfCollisions = 0
     
     def showState(self):
         print(self.position, self.speed, self.direction)
@@ -34,3 +35,5 @@ def collision(particle1: Particle, particle2: Particle):
     p2neu = normalize(xrel) * np.dot(p1, xrel) / magnitude(xrel)
     particle1.speed, particle1.direction = combilize((p1 - p2neu + impulseShift) / particle1.mass)
     particle2.speed, particle2.direction = combilize((p2neu + impulseShift) / particle2.mass)
+    particle1.numberOfCollisions += 1
+    particle2.numberOfCollisions += 1

@@ -2,12 +2,7 @@ import numpy as np
 from experiment import Experiment
 from domain import Cuboid
 
-"""
-1. Ideal gas law
-We create an experiment with 1000 particles in a 3 dimensional cube with kinetic energy of 300 Kelvin.
-"""
-
-N = 100 # Number of particles
+N = 250 # Number of particles
 l = 100 # Edge length of the cube
 dimensions = 3
 v, m, r = 1, 1, 1 # Initial particle speed, mass and radius
@@ -20,17 +15,13 @@ print("Expected pressure:", str(N * m * v * v * 0.5 / cube.setVolume()))
 
 exp = Experiment(cube, Experiment.createParticleList(N, cube, speedFunction, m, r))
 exp.showState()
-exp.speedHisotgram()
-exp.runStep(10)
-exp.speedHisotgram()
-exp.runStep(100)
-exp.speedHisotgram()
-exp.runStep(1000)
-exp.speedHisotgram()
-exp.runStep(1000)
-exp.speedHisotgram()
-exp.runStep(1000)
-exp.speedHisotgram()
-exp.runStep(1000)
-exp.speedHisotgram()
+exp.speedHisotgram(np.arange(0, 5, 0.2))
+while exp.getCollisions() < 10: exp.runStep()
+exp.speedHisotgram(np.arange(0, 5, 0.2))
+while exp.getCollisions() < 100: exp.runStep()
+exp.speedHisotgram(np.arange(0, 5, 0.2))
+while exp.getCollisions() < 1000: exp.runStep()
+exp.speedHisotgram(np.arange(0, 5, 0.2))
+while exp.getCollisions() < 10000: exp.runStep()
+exp.speedHisotgram(np.arange(0, 5, 0.2))
 exp.showState()

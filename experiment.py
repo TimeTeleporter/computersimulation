@@ -51,18 +51,22 @@ class Experiment():
         print("System energy:", str(self.energy))
         return self.energy
     
+    def getCollisions(self):
+        return sum([part.numberOfCollisions for part in self.particles])
+    
     def showPressure(self):
         print("System pressure:", str(self.pressure))
     
     def showState(self):
+        print("Step:", str(self.time))
         self.calculateEnergy()
         if self.time != 0: self.showPressure()
     
-    def speedHisotgram(self, binmode='auto'):
+    def speedHisotgram(self, binmode='speedlst'):
         speedlst = [part.speed for part in self.particles]
-        if binmode != 'auto': binmode=np.arange(0,max(speedlst), 1.1 * min(speedlst))
+        if binmode == 'auto': binmode=np.arange(0,1.1 * max(speedlst), 1.01 * min(speedlst))
         fig = plt.hist(speedlst, bins=binmode)
-        plt.title("Speed distribution at step " + str(self.time))
+        plt.title("Speed distribution at step " + str(self.time) + " after " + str(self.getCollisions()) + " collisions.")
         plt.show()
     
     def createParticleList(numberofParticles, volume: domain.Volume, speedfunc, mass, radius):
